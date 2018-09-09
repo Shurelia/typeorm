@@ -19,6 +19,10 @@ export class NativescriptDriver extends AbstractSqliteDriver {
      * Connection options.
      */
     options: NativescriptConnectionOptions;
+    /**
+     * Connection driver.
+     */
+    driver: any;
 
     // -------------------------------------------------------------------------
     // Constructor
@@ -30,10 +34,13 @@ export class NativescriptDriver extends AbstractSqliteDriver {
         this.connection = connection;
         this.options = connection.options as NativescriptConnectionOptions;
         this.database = this.options.database;
+        this.driver = this.options.driver;
 
         // validate options to make sure everything is set
         if (!this.options.database)
             throw new DriverOptionNotSetError("database");
+        if (!this.options.driver)
+            throw new DriverOptionNotSetError("driver");
 
         // load sqlite package
         this.loadDependencies();
@@ -107,7 +114,7 @@ export class NativescriptDriver extends AbstractSqliteDriver {
      */
     protected loadDependencies(): void {
         try {
-            this.sqlite = require("nativescript-sqlite");
+            this.sqlite = this.driver;
 
         } catch (e) {
             throw new DriverPackageNotInstalledError("Nativescript", "nativescript-sqlite");

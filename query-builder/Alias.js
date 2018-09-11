@@ -4,7 +4,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 var Alias = /** @class */ (function () {
     function Alias(alias) {
-        Object.assign(this, alias || {});
+        if (alias) {
+            this.type = alias.type;
+            this.name = alias.name;
+            this.tablePath = alias.tablePath;
+            this.subQuery = alias.subQuery;
+        }
     }
     Object.defineProperty(Alias.prototype, "target", {
         get: function () {
